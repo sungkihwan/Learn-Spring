@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
+    // 수동으로 등록 -> 스프링으로 자체적으로 싱글톤 객체로 관리
     @Bean
     public DiscountPolicy discountPolicy() {
         return new RateDiscountPolicy();
