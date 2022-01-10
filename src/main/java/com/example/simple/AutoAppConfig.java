@@ -3,10 +3,6 @@ package com.example.simple;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 @Configuration
 // 컴포넌트 스캔 -> 컴포넌트 애노테이션이 붙은 대상들 자동으로 빈 등록
@@ -28,14 +24,24 @@ import org.springframework.stereotype.Service;
          * 만약 상태를 저장한다면 데이터가 꼬여서 아주 개판이 될 수 있다.
          * 실제로 KEY값이 중복되어 저장이 버튼을 눌렀는데도 저장이 안된다던가
          * 물건값이 다르게 계산된다던가 하는 문제가 발생할 수 있다.
-         * **/
+        */
 
         /**
          * 아래는 스프링이 해당 어노테이션에 기능을 사용하니 참고하자.
-         * @Service -> 서비스는 특별한 추가기능이 없고 개발자들간에 서비로직을 인식하는 어노테이션이라고 볼 수 있다.
+         * @Service -> 서비스는 특별한 추가기능이 없고 개발자들간에 서비스로직을 인식하는 어노테이션이라고 볼 수 있다.
          * @Repository -> 데이터 접근계층으로 인식하여 DB 익셉션을 스프링의 익셉션으로 변환해서 로그에 출력해준다.
          * @Controller -> 컨트롤러로 인식한다.
-         * **/
+        */
+
+        /**
+         * implements InitializingBean -> 의존관계 주입이 끝나면 초기화 해주는 인터페이스
+         * @Bean(initMethod = "init", destroyMethod = "close") -> 외부라이브러리도 초기화 및 종료메서드를 적용할 수 있음
+         * -> 외부라이브러리 대부분은 destroyMethod = "close" or "shutdown" 을 사용하는데, destroyMethod = (inferred)가 default
+         * -> close나 shutdown을 스프링이 추론해서 종료메서드로 사용하기 때문에 destroyMethod는 없어도 실행된다.
+         * @PostConstruct
+         * @PreDestroy
+         * -> 외부라이브러리에는 사용하지 못하지만 이런 애노테이션도 있다.
+        */
         basePackages = {"com.example.simple.order", "com.example.simple.member"},
         // AppConfig 필터링 -> 실제 서비스에서는 사용할 일이 거의 없음..
         excludeFilters = @ComponentScan.Filter
